@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using System.Drawing;
-using System.Xml.Linq;
 using TodoListBlazor.API.Entities;
 using TodoListBlazor.API.Enums;
 using Task = System.Threading.Tasks.Task;
@@ -30,7 +27,6 @@ namespace TodoListBlazor.API.Data
                 user.PasswordHash = _passwordHasher.HashPassword(user, password: "Admin@123$");
                 context.Users.Add(user);
             }
-
 
             if (!context.Tasks.Any())
             {

@@ -5,30 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TodoListBlazor.API.Migrations
 {
-    public partial class IdentityCore : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Assignee",
-                table: "Tasks");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Tasks",
-                type: "nvarchar(250)",
-                maxLength: 250,
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
-
-            migrationBuilder.AddColumn<Guid>(
-                name: "AssigneeId",
-                table: "Tasks",
-                type: "uniqueidentifier",
-                nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -177,10 +157,27 @@ namespace TodoListBlazor.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Tasks_AssigneeId",
-                table: "Tasks",
-                column: "AssigneeId");
+            migrationBuilder.CreateTable(
+                name: "Tasks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    AssigneeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tasks_AspNetUsers_AssigneeId",
+                        column: x => x.AssigneeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -221,21 +218,14 @@ namespace TodoListBlazor.API.Migrations
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Tasks_AspNetUsers_AssigneeId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Tasks_AssigneeId",
                 table: "Tasks",
-                column: "AssigneeId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                column: "AssigneeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Tasks_AspNetUsers_AssigneeId",
-                table: "Tasks");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -252,33 +242,13 @@ namespace TodoListBlazor.API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Tasks");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Tasks_AssigneeId",
-                table: "Tasks");
-
-            migrationBuilder.DropColumn(
-                name: "AssigneeId",
-                table: "Tasks");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Tasks",
-                type: "nvarchar(max)",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(250)",
-                oldMaxLength: 250);
-
-            migrationBuilder.AddColumn<Guid>(
-                name: "Assignee",
-                table: "Tasks",
-                type: "uniqueidentifier",
-                nullable: true);
         }
     }
 }

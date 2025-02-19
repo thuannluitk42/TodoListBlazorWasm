@@ -12,8 +12,8 @@ using TodoListBlazor.API.Data;
 namespace TodoListBlazor.API.Migrations
 {
     [DbContext(typeof(TodoListDbContext))]
-    [Migration("20250218081138_IdentityCore")]
-    partial class IdentityCore
+    [Migration("20250219084712_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

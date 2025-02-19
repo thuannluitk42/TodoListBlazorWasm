@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Xml.Linq;
 using TodoList.Models;
 using TodoListBlazor.API.Enums;
 using TodoListBlazor.API.Repositories;
@@ -45,7 +44,8 @@ namespace TodoListBlazor.API.Controllers
                 Priority = request.Priority,
                 Status = Status.Open,
                 CreatedDate = DateTime.Now,
-                Id = request.Id
+                Id = request.Id,
+                AssigneeId = request.AssigneeId
             });
             return CreatedAtAction(nameof(GetById),new {id = tasks.Id} ,tasks);
         }
