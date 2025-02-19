@@ -20,6 +20,5 @@ namespace TodoListBlazor.API.Entities
         public Priority Priority { get; set; }
         public Status Status { get; set; }
 
-
     }
 }
